@@ -2,6 +2,20 @@
 
 All notable changes to the Architecture Landscape template are documented here. Versions follow [Semantic Versioning](https://semver.org/): 0.x releases are initial development; 1.0 will cover the whole NAF grid in scope.
 
+## [0.2] – 2026-11-21
+
+### Added
+- 8 NAF Viewpoint Guides completing row C: C2 Enterprise Vision, C3 Capability Dependencies, C4 Standard Processes, C5 Effects, C7 Performance Criteria, C8 Planning Constraints, Cr Capability Roadmap, and C1-S1 Service to Capability Mapping.
+- 8 Viewpoint elements and 16 Concern elements (54 Concerns in total), with their associations.
+- 47 relationships between metamodel elements used by the new guides.
+
+### Changed
+- Documentation of the Concerns shared by several viewpoints (e.g. Capability Planning and Management, Service Planning).
+- Template Version 0.2; Read Me title.
+
+### Notes
+- Generated incrementally from 0.1: all existing identifiers, elements, relationships and views are unchanged.
+
 ## [0.1] – 2026-11-20
 
 First release.

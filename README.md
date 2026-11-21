@@ -4,7 +4,7 @@ An Archi template of an enterprise architecture landscape, inspired by the **NAT
 
 It is an original work: NAF and ArchiMate are its two sources of inspiration, not standards it claims to comply with. Every borrowing is cited (document and section) and every deviation is documented.
 
-> Status: **0.1** (initial development). Version 1.0 will cover the whole NAF grid in scope. See [CHANGELOG.md](CHANGELOG.md).
+> Status: **0.2** (initial development). Version 1.0 will cover the whole NAF grid in scope. See [CHANGELOG.md](CHANGELOG.md).
 
 ## What it contains
 
@@ -18,7 +18,7 @@ One Archi model, **Architecture Landscape**, organised along the four zones of t
 | Registers | jArchi reports (planned) |
 
 - **Specialisations**: NAF concepts are carried by Archi specialisations on the ArchiMate element or relationship whose meaning fits best. A specialisation is set only when it changes the meaning.
-- **NAF Viewpoint Guides**: one guide view per NAF viewpoint, named by its code (C1, A2, P1…), with its purpose, concerns, scope, modelling rules and deviations. Version 0.1 contains row A and column 1 (13 guides).
+- **NAF Viewpoint Guides**: one guide view per NAF viewpoint, named by its code (C1, A2, P1…), with its purpose, concerns, scope, modelling rules and deviations. Version 0.2 contains rows A and C, plus S1, L1, P1 and C1-S1 (21 guides).
 - **Views**: by architecture level (1 Enterprise, 2 Domain, 3 Programme, 4 Project), then by NAF grid row (C Concepts, S Service Specifications, L Logical Specifications, P Physical Resource Specifications, A Architecture Meta-Data).
 
 The view **0 Read Me** inside the model gives the full rules: structure, properties, version control and adaptations of NAF.
@@ -70,6 +70,6 @@ Changes go through pull requests to `main`, with Archi Validator reporting no wa
 
 Architecture Landscape template – Copyright © 2026 Olivier Sabbe.
 
-This template is licensed under the [Creative Commons Attribution 4.0 International](LICENSE) licence (CC BY 4.0).
+This template is licensed under the [Creative Commons Attribution 4.0 International](LICENCE) licence (CC BY 4.0).
 
 NAF concepts remain the property of NATO; the NAF v4.1 documents are cited by reference. ArchiMate® and TOGAF® are registered trademarks of The Open Group. Archi® is a registered trademark of Phillip Beauvoir.
