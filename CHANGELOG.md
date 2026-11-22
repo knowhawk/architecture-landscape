@@ -2,6 +2,24 @@
 
 All notable changes to the Architecture Landscape template are documented here. Versions follow [Semantic Versioning](https://semver.org/): 0.x releases are initial development; 1.0 will cover the whole NAF grid in scope.
 
+## [0.3] – 2026-11-22
+
+### Added
+- 7 NAF Viewpoint Guides completing row S: S2 Service Structure, S3 Service Interfaces, S4 Service Functions, S5 Service States, S7 Service Interface Parameters, S8 Service Constraints and Sr Service Roadmap (S6 is out of scope).
+- 7 Viewpoint elements and 17 Concern elements (71 Concerns in total), with their associations.
+- Relationships between metamodel elements used by the new guides.
+- Property convention for states, modes and transitions: repeated keys State, Initial State, Mode and State Transition ("<from> -> <to> [<event>]"), applied first in S5.
+
+### Changed
+- Read Me, section 5: property convention for states, modes and transitions.
+- Read Me, section 8: procedure to update the Reference Libraries of an instance by import.
+- Cr Capability Roadmap: NAF Steps corrected to AV, AD, AE, MP.
+- Documentation of the Concerns shared by several viewpoints.
+- Template Version 0.3; Read Me title.
+
+### Notes
+- Generated incrementally from 0.2: all existing identifiers, elements, relationships and views are unchanged.
+
 ## [0.2] – 2026-11-21
 
 ### Added
