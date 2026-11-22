@@ -2,6 +2,22 @@
 
 All notable changes to the Architecture Landscape template are documented here. Versions follow [Semantic Versioning](https://semver.org/): 0.x releases are initial development; 1.0 will cover the whole NAF grid in scope.
 
+## [0.4] – 2026-11-22
+
+### Added
+- 8 NAF Viewpoint Guides completing row L: L2 Logical Structure, L2-L3 Logical Concept, L3 Logical Interactions, L4 Logical Activities, L5 Logical States, L7 Information Model, L8 Logical Constraints and Lr Logical Roadmap (L6 is out of scope).
+- 8 Viewpoint elements and 32 Concern elements (103 Concerns in total), with their associations.
+- Relationships between metamodel elements used by the new guides, including the specialised relationships Needline and Operational Flow, and associations to relationships for conveyed resources.
+
+### Changed
+- Read Me, section 5: event rule for state transitions (triggering for a behaviour, association for an active resource) and Attribute property for information entities.
+- Documentation of the Concerns shared by several viewpoints.
+- Template Version 0.4; Read Me title.
+
+### Notes
+- Generated incrementally from 0.3: all existing identifiers, elements, relationships and views are unchanged.
+- L4 is a light guide: traces to services and physical resources are allowed but not drawn.
+
 ## [0.3] – 2026-11-22
 
 ### Added
