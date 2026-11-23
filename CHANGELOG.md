@@ -2,6 +2,22 @@
 
 All notable changes to the Architecture Landscape template are documented here. Versions follow [Semantic Versioning](https://semver.org/): 0.x releases are initial development; 1.0 will cover the whole NAF grid in scope.
 
+## [0.5] – 2026-11-23
+
+### Added
+- 8 NAF Viewpoint Guides completing row P: P2 Resource Structure, P3 Resource Connectivity, P4 Resource Functions, L4-P4 Activity to Function Mapping, P5 Resource States, P7 Data Model, P8 Resource Constraints and Pr Resource Roadmap (P6 is out of scope). The grid in scope is now complete: 44 guides.
+- 8 Viewpoint elements and 36 Concern elements (139 Concerns in total), with their associations.
+- Relationships between metamodel elements used by the new guides, including the specialised relationship Resource Flow.
+
+### Changed
+- Read Me, section 5: Attribute extended to data entities; new Physical Characteristic property; Protocol and Standard on Flow relationships; Readiness Level on the Milestone.
+- Documentation of the Concerns shared by several viewpoints.
+- Template Version 0.5; Read Me title.
+
+### Notes
+- Generated incrementally from 0.4: all existing identifiers, elements, relationships and views are unchanged.
+- Row P guides are light guides: they draw a representative set of physical resources; the other types follow the same rules (P1).
+
 ## [0.4] – 2026-11-22
 
 ### Added

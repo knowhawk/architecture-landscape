@@ -4,7 +4,7 @@ An Archi template of an enterprise architecture landscape, inspired by the **NAT
 
 It is an original work: NAF and ArchiMate are its two sources of inspiration, not standards it claims to comply with. Every borrowing is cited (document and section) and every deviation is documented.
 
-> Status: **0.4** (initial development). Version 1.0 will cover the whole NAF grid in scope. See [CHANGELOG.md](CHANGELOG.md).
+> Status: **0.5** (initial development). The NAF grid in scope is complete; version 1.0 will add the Architecture Repositories zone, jArchi scripts and the user documentation. See [CHANGELOG.md](CHANGELOG.md).
 
 ## What it contains
 
@@ -18,7 +18,7 @@ One Archi model, **Architecture Landscape**, organised along the four zones of t
 | Registers | jArchi reports (planned) |
 
 - **Specialisations**: NAF concepts are carried by Archi specialisations on the ArchiMate element or relationship whose meaning fits best. A specialisation is set only when it changes the meaning.
-- **NAF Viewpoint Guides**: one guide view per NAF viewpoint, named by its code (C1, A2, P1…), with its purpose, concerns, scope, modelling rules and deviations. Version 0.4 contains rows A, C, S and L, plus P1 and C1-S1 (36 guides).
+- **NAF Viewpoint Guides**: one guide view per NAF viewpoint, named by its code (C1, A2, P1…), with its purpose, concerns, scope, modelling rules and deviations. Version 0.5 contains the whole grid in scope: rows C, S, L, P and A, with C1-S1, L2-L3 and L4-P4 (44 guides; S6, L6 and P6 are out of scope).
 - **Views**: by architecture level (1 Enterprise, 2 Domain, 3 Programme, 4 Project), then by NAF grid row (C Concepts, S Service Specifications, L Logical Specifications, P Physical Resource Specifications, A Architecture Meta-Data).
 
 The view **0 Read Me** inside the model gives the full rules: structure, properties, version control and adaptations of NAF.
