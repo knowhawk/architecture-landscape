@@ -2,6 +2,26 @@
 
 All notable changes to the Architecture Landscape template are documented here. Versions follow [Semantic Versioning](https://semver.org/): 0.x releases are initial development; 1.0 will cover the whole NAF grid in scope.
 
+## [0.6] – 2026-11-25
+
+### Added
+- jArchi scripts (`scripts/`, MIT licence): New View from Guide, New Scope Folder; Check Metamodel Links, Check Views, Check Properties, Run All Checks; Register Viewpoint Usage, Register Lifecycle (CSV and Markdown). Tested with Archi 5.11 and jArchi 1.12.
+- `tools/compare_ids.py` (MIT licence): checks that an instance shares the identifiers of a release.
+- Documentation of the Architecture Repositories zone: list of the viewpoints of each grid-row folder of 1 Enterprise, creation rules for views, rule on generic metamodel elements in the element folders.
+
+### Changed
+- Release files: each release now provides `Architecture_Landscape_<version>.archimate`, the model to open and save under your own name for an instance that can be updated by import, besides the `.architemplate` for a stand-alone model.
+- Read Me, section 3 (How to start) and section 8 (Reference Libraries maintenance): update by **Import › Another Model** from the `.archimate` of a release, option *Update existing objects and folders* only.
+- Guide C1-S1 moved to the folder S Service Specifications, where NAF lists it (same identifier).
+- Readability of the 44 guide diagrams: visible loops for reflexive relationships, Viewpoint-to-Concern associations drawn as a comb, one routing lane per connection, wider gutters where needed.
+- Guides S2, S4 and P1 draw each relationship pattern of their table once instead of all its combinations (45 connections removed from these diagrams; the relationships remain in the model and the rules in the guide notes).
+- README: Getting started, updating an instance, scripts and tools; dual licence (CC BY 4.0 for the template, MIT for code).
+- Template Version 0.6; Read Me title.
+
+### Notes
+- Generated incrementally from 0.5: all identifiers of elements, relationships, views and folders are unchanged; only the 45 diagram connections above are removed.
+- Instances updated from 0.5 by import: check guides S2, S4 and P1; connections removed in 0.6 may remain and can be deleted from the guide views.
+
 ## [0.5] – 2026-11-23
 
 ### Added

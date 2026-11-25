@@ -1,0 +1,46 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Olivier Sabbe
+// Architecture Landscape - New Scope Folder
+//
+// Creates a documented domain, programme or project folder under a level folder
+// (2 Domain, 3 Programme, 4 Project), with its five grid-row folders.
+// Read Me, section 3, step 2.
+
+load(__DIR__ + "../../lib/al-common.js");
+
+AL.requireModel();
+
+var rows = AL.rows();
+
+// Levels that hold scope folders: those without grid-row folders directly below (not 1 Enterprise).
+var scopedLevels = AL.levels().filter(function (l) { return !AL.childFolder(l, rows[0]); });
+if (scopedLevels.length === 0) {
+    window.alert("No level folder accepting domain, programme or project folders was found.");
+    exit();
+}
+
+var levelName = AL.select("Level of the new scope folder",
+    scopedLevels.map(function (l) { return l.name; }));
+if (!levelName) exit();
+var level = scopedLevels.filter(function (l) { return l.name === levelName; })[0];
+var kind = levelName.replace(/^\d+\s*/, "");          // "2 Domain" -> "Domain"
+
+var scopeName = AL.ask(kind + " name (the folder is named after it)", "");
+if (!scopeName || !scopeName.trim()) exit();
+scopeName = scopeName.trim();
+
+if (AL.childFolder(level, scopeName)) {
+    window.alert("A folder '" + scopeName + "' already exists under " + levelName + ".");
+    exit();
+}
+
+var scope = AL.createFolder(level, scopeName, kind + " " + scopeName + ": architecture views of this " + kind.toLowerCase() +
+    ", by NAF grid row. Views follow the same rules as in 1 Enterprise (naming, creation from the guides, view properties).");
+
+rows.forEach(function (r) {
+    AL.createFolder(scope, r, kind + "-level views of grid row " + r + " for " + scopeName +
+        ". Name views <code> <Subject>; see the documentation of the grid-row folders of 1 Enterprise.");
+});
+
+console.show();
+console.log("Created " + levelName + " / " + scopeName + " with " + rows.length + " grid-row folders.");

@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Olivier Sabbe
+// Architecture Landscape - Check Views
+//
+// Reports views of the Architecture Repositories zone that break the view rules of the template:
+// name <code> <Subject>, NAF Viewpoint, grid-row folder, Architecture State, Enterprise Phase, Programme.
+// Read-only: the model is not modified.
+
+load(__DIR__ + "../../lib/al-common.js");
+load(__DIR__ + "../../lib/al-checks.js");
+
+AL.requireModel();
+console.clear();
+ALChecks.runAndPrint("Check Views", ALChecks.views);

@@ -1,0 +1,67 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Olivier Sabbe
+// Architecture Landscape - Register Viewpoint Usage
+//
+// Register of the views of the Architecture Repositories zone (NAF Registers zone):
+// - viewpoint-usage-<date>.csv: one line per view (level, scope, grid row, viewpoint, state, phase, programme);
+// - viewpoint-usage-<date>.md: matrix scope x viewpoint (number of views per Architecture State).
+// Read-only: the model is not modified.
+
+load(__DIR__ + "../../lib/al-common.js");
+
+AL.requireModel();
+
+var guides = AL.guides();
+var titles = {};
+guides.forEach(function (g) { titles[g.code] = g.title; });
+var order = guides.map(function (g) { return g.code; });
+
+var lines = [];
+$("archimate-diagram-model").each(function (v) {
+    if (AL.isInReferenceLibraries(v)) return;
+    var path = AL.folderPath(v);
+    if (path.length < 2) return;                         // views outside the level folders (Read Me)
+    var level = path[1];
+    var scope = path.length > 3 ? path.slice(2, path.length - 1).join(" / ") : "";
+    var code = v.prop("NAF Viewpoint") || "";
+    lines.push([level, scope, path[path.length - 1], code, titles[code] || "", v.name,
+        v.prop("Architecture State") || "", v.prop("Enterprise Phase") || "", v.prop("Programme") || ""]);
+});
+lines.sort(function (a, b) {
+    var rank = function (c) { var i = order.indexOf(c); return i < 0 ? order.length : i; };   // unknown codes last
+    return (a[0] + "|" + a[1]).localeCompare(b[0] + "|" + b[1]) || (rank(a[3]) - rank(b[3])) || a[5].localeCompare(b[5]);
+});
+
+// Matrix: one row per level/scope, one column per viewpoint code in use.
+var used = order.filter(function (c) { return lines.some(function (l) { return l[3] === c; }); });
+var unknown = lines.filter(function (l) { return order.indexOf(l[3]) < 0; }).length;
+var scopes = [];
+lines.forEach(function (l) { var k = l[0] + (l[1] ? " / " + l[1] : ""); if (scopes.indexOf(k) < 0) scopes.push(k); });
+var abbrev = { "As-Is": "A", "Transition": "T", "To-Be": "B" };
+var matrix = scopes.map(function (s) {
+    return [s].concat(used.map(function (c) {
+        var mine = lines.filter(function (l) { return (l[0] + (l[1] ? " / " + l[1] : "")) === s && l[3] === c; });
+        if (!mine.length) return "";
+        var byState = {};
+        mine.forEach(function (l) { var k = abbrev[l[6]] || "?"; byState[k] = (byState[k] || 0) + 1; });
+        return ["A", "T", "B", "?"].filter(function (k) { return byState[k]; })
+            .map(function (k) { return byState[k] + k; }).join(" ");
+    }));
+});
+
+var dir = AL.askOutputDir("Folder for the Viewpoint Usage register");
+if (!dir) exit();
+var stamp = AL.today();
+var csvPath = AL.writeText(dir, "viewpoint-usage-" + stamp + ".csv", AL.csv(
+    ["Level", "Scope", "Grid Row", "NAF Viewpoint", "Viewpoint", "View", "Architecture State", "Enterprise Phase", "Programme"], lines));
+var md = "# Viewpoint Usage - " + model.name + " - " + stamp + "\n\n" +
+    lines.length + " view(s) in the Architecture Repositories zone; " + used.length + " of " + order.length + " viewpoints in use" +
+    (unknown ? "; " + unknown + " view(s) without a valid NAF Viewpoint (run Check Views)" : "") + ".\n\n" +
+    "Cells: number of views per Architecture State (A = As-Is, T = Transition, B = To-Be, ? = missing).\n\n" +
+    (scopes.length ? AL.mdTable(["Level / Scope"].concat(used), matrix) : "No view.\n");
+var mdPath = AL.writeText(dir, "viewpoint-usage-" + stamp + ".md", md);
+
+console.show();
+console.log("Viewpoint Usage: " + lines.length + " view(s), " + used.length + " viewpoint(s) in use.");
+console.log("Written: " + csvPath);
+console.log("Written: " + mdPath);

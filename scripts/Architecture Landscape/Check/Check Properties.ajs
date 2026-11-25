@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Olivier Sabbe
+// Architecture Landscape - Check Properties
+//
+// Reports properties of the architecture content that break the conventions of the template:
+// Lifecycle Status and Change Reference; State, Initial State, State Transition and their events;
+// Attribute and Physical Characteristic; Readiness Level; Protocol and Standard on relationships;
+// numbered keys and list values. Read-only: the model is not modified.
+
+load(__DIR__ + "../../lib/al-common.js");
+load(__DIR__ + "../../lib/al-checks.js");
+
+AL.requireModel();
+console.clear();
+ALChecks.runAndPrint("Check Properties", ALChecks.properties);

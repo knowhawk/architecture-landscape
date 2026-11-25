@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Olivier Sabbe
+// Architecture Landscape - Check Metamodel Links
+//
+// Reports relationships between the architecture content and the generic elements of the
+// ArchiMate Metamodel or the NAF Metamodel, and content views showing a generic element.
+// Read-only: the model is not modified.
+
+load(__DIR__ + "../../lib/al-common.js");
+load(__DIR__ + "../../lib/al-checks.js");
+
+AL.requireModel();
+console.clear();
+ALChecks.runAndPrint("Check Metamodel Links", ALChecks.metamodelLinks);
