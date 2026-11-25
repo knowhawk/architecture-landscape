@@ -1,0 +1,63 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Olivier Sabbe
+// Architecture Landscape - Register Lifecycle
+//
+// Register of the architecture content by Lifecycle Status and Change Reference (NAF Registers zone):
+// - lifecycle-<date>.csv: one line per element or relationship carrying a Lifecycle Status;
+// - lifecycle-<date>.md: summary by status and portfolio of changes (Change Reference x status).
+// Read-only: the model is not modified.
+
+load(__DIR__ + "../../lib/al-common.js");
+
+AL.requireModel();
+
+function label(o) {
+    return o.name || (o.source && o.target ? o.source.name + " -> " + o.target.name : "");
+}
+
+var lines = [];
+$("concept").each(function (o) {
+    if (AL.isInReferenceLibraries(o)) return;
+    var ls = o.prop("Lifecycle Status");
+    if (!ls) return;
+    lines.push([ls, o.prop("Change Reference") || "", o.type, o.specialization || "", label(o), AL.pathOf(o), $(o).viewRefs().size()]);
+});
+var statusOrder = AL.LIFECYCLE;
+lines.sort(function (a, b) {
+    var sa = statusOrder.indexOf(a[0]), sb = statusOrder.indexOf(b[0]);
+    return (sa < 0 ? 99 : sa) - (sb < 0 ? 99 : sb) || a[1].localeCompare(b[1]) || a[4].localeCompare(b[4]);
+});
+
+var counted = $("concept").filter(function (o) { return !AL.isInReferenceLibraries(o); }).size();
+var byStatus = statusOrder.concat(["(other)"]).map(function (s) {
+    var n = lines.filter(function (l) { return s === "(other)" ? statusOrder.indexOf(l[0]) < 0 : l[0] === s; }).length;
+    return [s, n];
+}).filter(function (r) { return r[1] > 0; });
+
+var changes = [];
+lines.forEach(function (l) { if (l[1] && changes.indexOf(l[1]) < 0) changes.push(l[1]); });
+changes.sort();
+var portfolio = changes.map(function (c) {
+    return [c].concat(statusOrder.map(function (s) {
+        var n = lines.filter(function (l) { return l[1] === c && l[0] === s; }).length;
+        return n || "";
+    }));
+});
+var missing = lines.filter(function (l) { return !l[1] && AL.NEEDS_CHANGE_REF.indexOf(l[0]) >= 0; }).length;
+
+var dir = AL.askOutputDir("Folder for the Lifecycle register");
+if (!dir) exit();
+var stamp = AL.today();
+var csvPath = AL.writeText(dir, "lifecycle-" + stamp + ".csv", AL.csv(
+    ["Lifecycle Status", "Change Reference", "Type", "Specialisation", "Name", "Folder", "Views"], lines));
+var md = "# Lifecycle - " + model.name + " - " + stamp + "\n\n" +
+    lines.length + " of " + counted + " concept(s) of the Architecture Repositories zone carry a Lifecycle Status" +
+    (missing ? "; " + missing + " without the required Change Reference (run Check Properties)" : "") + ".\n\n" +
+    "## By status\n\n" + (byStatus.length ? AL.mdTable(["Lifecycle Status", "Concepts"], byStatus) : "None.\n") +
+    "\n## Portfolio of changes\n\n" + (portfolio.length ? AL.mdTable(["Change Reference"].concat(statusOrder), portfolio) : "No Change Reference.\n");
+var mdPath = AL.writeText(dir, "lifecycle-" + stamp + ".md", md);
+
+console.show();
+console.log("Lifecycle: " + lines.length + " concept(s) with a Lifecycle Status, " + changes.length + " change reference(s).");
+console.log("Written: " + csvPath);
+console.log("Written: " + mdPath);

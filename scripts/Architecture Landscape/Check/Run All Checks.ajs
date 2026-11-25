@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Olivier Sabbe
+// Architecture Landscape - Run All Checks
+//
+// Runs all the checks of the template and prints a summary. Run it before each pull request,
+// together with the Archi Validator. Read-only: the model is not modified.
+
+load(__DIR__ + "../../lib/al-common.js");
+load(__DIR__ + "../../lib/al-checks.js");
+
+AL.requireModel();
+console.clear();
+var results = [
+    ALChecks.runAndPrint("Check Metamodel Links", ALChecks.metamodelLinks),
+    ALChecks.runAndPrint("Check Views", ALChecks.views),
+    ALChecks.runAndPrint("Check Properties", ALChecks.properties)
+];
+var errors = 0, warnings = 0;
+console.log("=== Summary ===");
+results.forEach(function (r) {
+    errors += r.count("ERROR"); warnings += r.count("WARNING");
+    console.log(r.title + ": " + r.count("ERROR") + " error(s), " + r.count("WARNING") + " warning(s)");
+});
+console.log("Total: " + errors + " error(s), " + warnings + " warning(s)" + (errors === 0 ? " - ready for a pull request." : "."));

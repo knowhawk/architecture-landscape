@@ -4,7 +4,7 @@ An Archi template of an enterprise architecture landscape, inspired by the **NAT
 
 It is an original work: NAF and ArchiMate are its two sources of inspiration, not standards it claims to comply with. Every borrowing is cited (document and section) and every deviation is documented.
 
-> Status: **0.5** (initial development). The NAF grid in scope is complete; version 1.0 will add the Architecture Repositories zone, jArchi scripts and the user documentation. See [CHANGELOG.md](CHANGELOG.md).
+> Status: **0.6** (initial development). The NAF grid in scope is complete, the Architecture Repositories zone is documented and jArchi scripts are provided; version 0.7 will add the user documentation. See [CHANGELOG.md](CHANGELOG.md).
 
 ## What it contains
 
@@ -15,27 +15,37 @@ One Archi model, **Architecture Landscape**, organised along the four zones of t
 | Workspace | Git working branches |
 | Reference Libraries | Zone of the model: ArchiMate Metamodel (one generic element per type), NAF Metamodel (one element per specialisation), Viewpoints and Concerns, Reference Architectures, NAF Viewpoint Guides |
 | Architecture Repositories | Zone of the model: the architecture content of the enterprise; approved content is on `main` |
-| Registers | jArchi reports (planned) |
+| Registers | jArchi reports (`scripts/`): viewpoint usage, lifecycle |
 
 - **Specialisations**: NAF concepts are carried by Archi specialisations on the ArchiMate element or relationship whose meaning fits best. A specialisation is set only when it changes the meaning.
-- **NAF Viewpoint Guides**: one guide view per NAF viewpoint, named by its code (C1, A2, P1…), with its purpose, concerns, scope, modelling rules and deviations. Version 0.5 contains the whole grid in scope: rows C, S, L, P and A, with C1-S1, L2-L3 and L4-P4 (44 guides; S6, L6 and P6 are out of scope).
-- **Views**: by architecture level (1 Enterprise, 2 Domain, 3 Programme, 4 Project), then by NAF grid row (C Concepts, S Service Specifications, L Logical Specifications, P Physical Resource Specifications, A Architecture Meta-Data).
+- **NAF Viewpoint Guides**: one guide view per NAF viewpoint, named by its code (C1, A2, P1…), with its purpose, concerns, scope, modelling rules and deviations. Version 0.6 contains the whole grid in scope: rows C, S, L, P and A, with C1-S1, L2-L3 and L4-P4 (44 guides; S6, L6 and P6 are out of scope).
+- **Views**: by architecture level (1 Enterprise, 2 Domain, 3 Programme, 4 Project), then by NAF grid row (C Concepts, S Service Specifications, L Logical Specifications, P Physical Resource Specifications, A Architecture Meta-Data). The template contains documented folders only: you create your views from the guides.
+- **jArchi scripts** ([scripts/](scripts/README.md)): create a view from its guide or a domain, programme or project folder; check the rules of the template (metamodel links, views, properties); write the registers.
+- **Tools** ([tools/](tools/README.md)): `compare_ids.py` checks that an instance can be updated from a release.
 
 The view **0 Read Me** inside the model gives the full rules: structure, properties, version control and adaptations of NAF.
 
 ## Getting started
 
-1. Download the `.architemplate` file from the latest [release](../../releases).
-2. In Archi (5.11 or later): **File › New › New Model from Template…**, then *Open template file*.
-3. Rename the model `<Organization> - Architecture Landscape` and fill in the model properties.
-4. Create one sub-folder per domain, programme or project under the view folders `2 Domain`, `3 Programme` or `4 Project`.
-5. Build each view according to its guide in **Views › Reference Libraries › NAF Viewpoint Guides**.
+Each release provides two files:
+
+| File | Use |
+|---|---|
+| `Architecture_Landscape_<version>.archimate` | **Instance kept up to date (recommended).** Open it in Archi (5.11 or later), then *File › Save As* immediately under your own file name. Identifiers are kept, so later releases can be imported. |
+| `Architecture_Landscape_<version>.architemplate` | **Stand-alone model.** *File › New › New Model from Template…* Archi regenerates all identifiers: the model cannot be updated by import later. |
+
+Then:
+1. Rename the model `<Organization> - Architecture Landscape` and fill in the model properties.
+2. Create one sub-folder per domain, programme or project under the view folders `2 Domain`, `3 Programme` or `4 Project`.
+3. Create each view from its guide in **Views › Reference Libraries › NAF Viewpoint Guides** (copy the guide, or use the jArchi script provided).
 
 To put your instance under version control, share it with coArchi (Archi's collaboration plug-in) in a **private repository of your own organisation**. Do not fork this repository.
 
 ### Updating the Reference Libraries of an instance
 
-The Reference Libraries are not modified in an instance. To move to a new release, import the new template into your model (**File › Import › Another Model into the selected model**); elements keep their identifiers.
+On a dedicated branch of your instance: **File › Import › Another Model…** with the `.archimate` of the new release (Archi cannot import an `.architemplate`), option **Update existing objects and folders** only. Then set the model property *Template Version* by hand, run the Validator and merge. This works only for instances created from an `.archimate` file of a release.
+
+`tools/compare_ids.py` checks that an instance shares the identifiers of a release (see [tools/README.md](tools/README.md)).
 
 ## Adaptations of NAF
 
@@ -71,5 +81,7 @@ Changes go through pull requests to `main`, with Archi Validator reporting no wa
 Architecture Landscape template – Copyright © 2026 Olivier Sabbe.
 
 This template is licensed under the [Creative Commons Attribution 4.0 International](LICENCE) licence (CC BY 4.0).
+
+The tools in `tools/` and the jArchi scripts in `scripts/` are licensed under the MIT licence (see the `LICENCE` file in each folder).
 
 NAF concepts remain the property of NATO; the NAF v4.1 documents are cited by reference. ArchiMate® and TOGAF® are registered trademarks of The Open Group. Archi® is a registered trademark of Phillip Beauvoir.

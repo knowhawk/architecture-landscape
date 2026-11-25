@@ -1,0 +1,88 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Olivier Sabbe
+// Architecture Landscape - New View from Guide
+//
+// Creates an empty view "<code> <Subject>" in the folder of its level, scope and grid row,
+// with the view properties of the template (Read Me, sections 3 and 5) and the Purpose of
+// its guide as documentation. The guide diagram is not copied (principle J5): build the
+// view with architecture content only, following the guide.
+
+load(__DIR__ + "../../lib/al-common.js");
+
+AL.requireModel();
+
+// 1. Viewpoint
+var guides = AL.guides();
+var labels = guides.map(function (g) { return g.code + " " + g.title; });
+var picked = AL.select("Viewpoint of the new view", labels);
+if (!picked) exit();
+var guide = guides[labels.indexOf(picked)];
+
+// 2. Level and scope
+var levels = AL.levels();
+var levelName = AL.select("Architecture level", levels.map(function (l) { return l.name; }));
+if (!levelName) exit();
+var level = levels.filter(function (l) { return l.name === levelName; })[0];
+
+var container = level;                                   // 1 Enterprise: grid-row folders directly below
+if (!AL.childFolder(level, guide.row)) {                 // other levels: one sub-folder per scope
+    var scopes = [];
+    $(level).children("folder").each(function (f) { scopes.push(f); });
+    if (scopes.length === 0) {
+        window.alert("No folder under " + levelName + ". Create one first with the script 'New Scope Folder'.");
+        exit();
+    }
+    var scopeName = AL.select("Scope (" + levelName + ")", scopes.map(function (s) { return s.name; }));
+    if (!scopeName) exit();
+    container = scopes.filter(function (s) { return s.name === scopeName; })[0];
+}
+
+var rowFolder = AL.childFolder(container, guide.row);
+if (!rowFolder) {
+    rowFolder = AL.createFolder(container, guide.row, "Views of grid row " + guide.row + ". Name views <code> <Subject>.");
+    console.log("Created missing grid-row folder " + AL.pathOf(rowFolder) + " / " + guide.row);
+}
+
+// 3. Subject
+var subject = AL.ask("Subject of the view (the view is named '" + guide.code + " <Subject>')", "");
+if (!subject || !subject.trim()) exit();
+var viewName = guide.code + " " + subject.trim();
+
+var existing = $(rowFolder).children("archimate-diagram-model").filter(function (v) { return v.name === viewName; });
+if (existing.size() > 0 && !window.confirm("A view '" + viewName + "' already exists in this folder. Create another one?")) exit();
+
+// 4. Architecture State and Enterprise Phase
+var state = AL.select("Architecture State", AL.STATES);
+if (!state) exit();
+
+var phase = "";
+if (state !== "As-Is") {
+    var TYPE_IT = "(type a name)";
+    var plateaus = [];
+    $("plateau").each(function (p) { if (!AL.isInReferenceLibraries(p) && plateaus.indexOf(p.name) < 0) plateaus.push(p.name); });
+    plateaus.sort();
+    var choice = plateaus.length ? AL.select("Enterprise Phase (Plateau aimed at)", plateaus.concat([TYPE_IT])) : TYPE_IT;
+    if (!choice) exit();
+    phase = choice === TYPE_IT ? (AL.ask("Enterprise Phase (name of the Plateau aimed at)") || "") : choice;
+    if (!phase) exit();
+}
+
+// 5. Programme (project views, optional)
+var programme = "";
+if (/Project$/.test(levelName)) {
+    programme = (AL.ask("Programme of the project (leave empty if none)") || "");
+}
+
+// 6. Create the view
+var view = model.createArchimateView(viewName, rowFolder);
+view.prop("NAF Viewpoint", guide.code);
+view.prop("Architecture State", state);
+if (phase) view.prop("Enterprise Phase", phase);
+if (programme) view.prop("Programme", programme);
+if (guide.archimateViewpoint) view.prop("ArchiMate Viewpoint", guide.archimateViewpoint);
+view.documentation = guide.purpose;
+
+console.show();
+console.log("Created view '" + viewName + "' in " + AL.pathOf(view) + ". Guide: " + guide.view.name + ".");
+if (phase && plateaus.indexOf(phase) < 0) console.log("Note: no Plateau named '" + phase + "' exists yet; create it in Implementation & Migration.");
+view.openInUI();
